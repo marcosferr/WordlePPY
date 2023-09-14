@@ -32,18 +32,30 @@ button:active {
 }
 
 .letter {
-  border: 1px solid black;
+  border: 2px solid #dee1e9;
+  border-radius: 10%;
+  height: 50px;
+  width: 50px;
   padding: 3px;
   margin: 3px;
-  min-width: 20px;
+  color: #393e4c;
   text-align: center;
   display: inline-block;
+  background-color: #fbfcff;
 }
 
 .row {
+  display: block;
+  margin: 0 auto;
   margin-bottom: 10px;
 }
 
 .input-area {
   margin: 30px;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

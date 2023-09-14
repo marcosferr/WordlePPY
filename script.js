@@ -6,6 +6,20 @@ const BOTON = document.getElementById("guess-button");
 const input = document.getElementById("guess-input");
 const valor = input.value;
 
+//Creamos una grilla con la cantidad de intentos
+function crearGrilla(intentos) {
+  const GRID = document.getElementById("grid");
+  for (let i = 0; i < intentos; i++) {
+    const ROW = document.createElement("div");
+    ROW.id = `row${i}`;
+    for (let i = 0; i < 5; i++) {
+      const SPAN = document.createElement("span");
+      SPAN.className = "letter";
+      ROW.appendChild(SPAN);
+    }
+    GRID.appendChild(ROW);
+  }
+}
 // Declaramos funciones
 function terminar(mensaje) {
   const INPUT = document.getElementById("guess-input");
@@ -30,7 +44,8 @@ function intentar() {
 
   //Generamos la grilla
   const GRID = document.getElementById("grid");
-  const ROW = document.createElement("div");
+  const ROW = document.getElementById(`row${6 - intentos}`);
+  ROW.innerHTML = "";
   ROW.className = "row";
   for (let i in palabra) {
     const SPAN = document.createElement("span");
@@ -50,7 +65,6 @@ function intentar() {
     }
     ROW.appendChild(SPAN);
   }
-  GRID.appendChild(ROW);
 
   intentos--;
   if (intentos == 0) {
@@ -58,7 +72,7 @@ function intentar() {
   }
 }
 function init() {
-  console.log("Esto se ejecuta solo cuando se carga la pagina web");
+  crearGrilla(6);
 }
 
 //Agregamos listeners
