@@ -1,7 +1,13 @@
 let intentos = 6;
 let diccionario = ["HURLS", "APPLE", "WINGS", "YOUTH"];
+let url = "https://random-word-api.herokuapp.com/word?length=5&lang=es";
 
-const url = "https://random-word-api.herokuapp.com/word?length=5&lang=es";
+const selectIdioma = document.getElementById("select-idioma");
+selectIdioma.addEventListener("change", () => {
+  url = `https://random-word-api.herokuapp.com/word?length=5${selectIdioma.value}`;
+  init();
+});
+
 let palabra = "";
 const options = {
   method: "GET",
@@ -35,6 +41,7 @@ const valor = input.value;
 //Creamos una grilla con la cantidad de intentos
 function crearGrilla(intentos) {
   const GRID = document.getElementById("grid");
+  GRID.innerHTML = "";
   for (let i = 0; i < intentos; i++) {
     const ROW = document.createElement("div");
     ROW.id = `row${i}`;
@@ -48,9 +55,11 @@ function crearGrilla(intentos) {
 }
 // Declaramos funciones
 function terminar(mensaje) {
+  BOTON.removeEventListener("click", intentar);
+  BOTON.addEventListener("click", init);
   const INPUT = document.getElementById("guess-input");
   INPUT.disabled = true;
-  BOTON.disabled = true;
+
   let contenedor = document.getElementById("guesses");
   contenedor.innerHTML = mensaje;
 }
@@ -65,6 +74,7 @@ function intentar() {
   const INTENTO = leerIntento();
   if (INTENTO === palabra) {
     terminar("<h1>GANASTE!😀</h1>");
+    BOTON.innerHTML = "Nuevo Juego";
     return;
   }
 
@@ -94,14 +104,24 @@ function intentar() {
 
   intentos--;
   if (intentos == 0) {
+    BOTON.innerHTML = "Nuevo Juego";
+    BOTON.addEventListener("click", init);
     terminar("<h1>PERDISTE!😖</h1>");
   }
 }
 function init() {
+  let contenedor = document.getElementById("guesses");
+  contenedor.innerHTML = "";
+  intentos = 6;
+  input.disabled = false;
+  input.value = "";
+  BOTON.innerHTML = "Intentar";
+  BOTON.removeEventListener("click", init);
+  BOTON.addEventListener("click", intentar);
   setWord();
   crearGrilla(6);
 }
 
 //Agregamos listeners
-BOTON.addEventListener("click", intentar);
+
 window.addEventListener("load", init);
